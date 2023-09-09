@@ -1,3 +1,5 @@
 {
+  "linters": "Linters you want to use:",
+  "ci": "CI/CD system you want to use:",
   "thank": "Completed! If you like this tool, give it a star ⭐ on GitHub"
 }

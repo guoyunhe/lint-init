@@ -25,18 +25,44 @@ export interface LintInitConfig {
    * Enable Markdownlint support
    */
   markdownlint?: {
-    enabled?: boolean;
-    config?: string;
-  };
-  prettier?: {
-    enabled: boolean;
+    /**
+     * devDependencies of the preset
+     */
+    deps?: Record<string, string>;
     /**
      * Prettier configuration object or package name of shareable configuration. If not specified,
      * Prettier will read `.editorconfig` settings or use built-in defaults.
      * @see https://prettier.io/docs/en/options
      */
     config?: string | Config;
+    /**
+     * .prettierignore
+     */
+    ignore?: string;
   };
+  /**
+   * Enable Prettier support
+   */
+  prettier?: {
+    /**
+     * devDependencies of the preset
+     */
+    deps?: Record<string, string>;
+    /**
+     * Prettier configuration object or package name of shareable configuration. If not specified,
+     * Prettier will read `.editorconfig` settings or use built-in defaults.
+     * @see https://prettier.io/docs/en/options
+     */
+    config?: string | Config;
+    /**
+     * .prettierignore
+     */
+    ignore?: string;
+  };
+  /**
+   * EditorConfig settings
+   */
+  editorconfig?: string;
 }
 
 interface ESLintInitConfig {
@@ -49,17 +75,17 @@ interface ESLintInitConfig {
    */
   value: string;
   /**
-   * devDependencies of the preset
+   * devDependencies
    */
   deps?: Record<string, string>;
   /**
-   * ESLint configureation of the preset
+   * ESLint configureation
    */
   config: any;
   /**
-   * .eslintignore rules of the preset
+   * .eslintignore
    */
-  ignore?: string[];
+  ignore?: string;
 }
 
 interface StylelintInitConfig {
@@ -72,15 +98,15 @@ interface StylelintInitConfig {
    */
   value: string;
   /**
-   * devDependencies of the preset
+   * devDependencies
    */
   deps?: Record<string, string>;
   /**
-   * Stylelint configureation of the preset
+   * Stylelint configureation
    */
   config: any;
   /**
-   * .stylelintignore rules of the preset
+   * .stylelintignore
    */
-  ignore?: string[];
+  ignore?: string;
 }

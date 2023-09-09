@@ -1,17 +1,14 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-import { action } from '..';
+import { intro, outro } from '@clack/prompts';
+import chalk from 'chalk';
+import enMessages from '../i18n/en.json';
+import zhMessages from '../i18n/zh.json';
 
-const program = new Command('lint-init');
+console.log('\n🪄 ', chalk.bold(chalk.cyan(PACKAGE_NAME)), chalk.dim('v' + PACKAGE_VERSION), '\n');
 
-program
-  .argument('[word]', 'Word to print on console')
-  .option('--repeat <times>', 'Print repeat times, 1 by default', parseInt)
-  .action(action);
+const messages = process.env['LANG']?.startsWith('zh') ? zhMessages : enMessages;
 
-program.helpOption('-h, --help', 'Show full help');
+intro('🚀 ' + messages.intro);
 
-program.version(PACKAGE_VERSION, '-v, --version', 'Show version number');
-
-program.parse();
+outro('🎉 ' + messages.outro);

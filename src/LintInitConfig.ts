@@ -13,13 +13,17 @@ export interface LintInitConfig {
    * Package version of the lint-init tool
    */
   version: string;
-  eslint?: {
-    enabled?: boolean;
-  };
   /**
-   * Enable stylelint support
+   * Enable ESLint support
    */
-  stylelint?: StylelintInitRootConfig;
+  eslint?: Partial<ESLintInitConfig> | ESLintInitConfig[];
+  /**
+   * Enable Stylelint support
+   */
+  stylelint?: Partial<StylelintInitConfig> | StylelintInitConfig[];
+  /**
+   * Enable Markdownlint support
+   */
   markdownlint?: {
     enabled?: boolean;
     config?: string;
@@ -35,20 +39,48 @@ export interface LintInitConfig {
   };
 }
 
-interface StylelintInitRootConfig {
-  dependencies?: Record<string, string>;
-  config?: any;
-  ignore?: string[];
+interface ESLintInitConfig {
   /**
-   * If you have several stylelint config for different types of projects, use this.
+   * Display name of the preset, e.g. ESLint + React, ESLint + React + TypeScript
    */
-  presets?: StylelintInitPresetConfig[];
+  name: string;
+  /**
+   * Identifier of the preset, e.g. eslint-react, eslint-react-typescript
+   */
+  value: string;
+  /**
+   * devDependencies of the preset
+   */
+  deps?: Record<string, string>;
+  /**
+   * ESLint configureation of the preset
+   */
+  config: any;
+  /**
+   * .eslintignore rules of the preset
+   */
+  ignore?: string[];
 }
 
-interface StylelintInitPresetConfig {
+interface StylelintInitConfig {
+  /**
+   * Display name of the preset, e.g. Stylelint + CSS, Stylelint + LESS
+   */
   name: string;
+  /**
+   * Identifier of the preset, e.g. stylelint-base, stylelint-less
+   */
   value: string;
-  dependencies?: Record<string, string>;
-  config?: any;
+  /**
+   * devDependencies of the preset
+   */
+  deps?: Record<string, string>;
+  /**
+   * Stylelint configureation of the preset
+   */
+  config: any;
+  /**
+   * .stylelintignore rules of the preset
+   */
   ignore?: string[];
 }

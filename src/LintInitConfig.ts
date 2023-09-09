@@ -16,11 +16,11 @@ export interface LintInitConfig {
   /**
    * Enable ESLint support
    */
-  eslint?: Partial<ESLintInitConfig> | ESLintInitConfig[];
+  eslint?: Partial<ESLintInitPreset> | ESLintInitPreset[];
   /**
    * Enable Stylelint support
    */
-  stylelint?: Partial<StylelintInitConfig> | StylelintInitConfig[];
+  stylelint?: Partial<StylelintInitPreset> | StylelintInitPreset[];
   /**
    * Enable Markdownlint support
    */
@@ -65,15 +65,11 @@ export interface LintInitConfig {
   editorconfig?: string;
 }
 
-interface ESLintInitConfig {
+export interface ESLintInitPreset {
   /**
    * Display name of the preset, e.g. ESLint + React, ESLint + React + TypeScript
    */
   name: string;
-  /**
-   * Identifier of the preset, e.g. eslint-react, eslint-react-typescript
-   */
-  value: string;
   /**
    * devDependencies
    */
@@ -88,15 +84,11 @@ interface ESLintInitConfig {
   ignore?: string;
 }
 
-interface StylelintInitConfig {
+interface StylelintInitPreset {
   /**
    * Display name of the preset, e.g. Stylelint + CSS, Stylelint + LESS
    */
   name: string;
-  /**
-   * Identifier of the preset, e.g. stylelint-base, stylelint-less
-   */
-  value: string;
   /**
    * devDependencies
    */

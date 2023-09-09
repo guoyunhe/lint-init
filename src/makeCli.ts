@@ -27,7 +27,7 @@ export async function makeCli(config: LintInitConfig) {
     linterOptions.push({ value: 'prettier', label: 'Prettier' });
   }
 
-  const linters = await multiselect({
+  const linters = await multiselect<any, string>({
     message: '🧰 ' + messages.linters,
     options: linterOptions,
     required: true,
@@ -36,6 +36,22 @@ export async function makeCli(config: LintInitConfig) {
   if (isCancel(linters)) {
     cancel('👋 ' + messages.cancel);
     process.exit(0);
+  }
+
+  let eslintPreset: number | null = null;
+
+  if (linters.includes('eslint') && Array.isArray(config.eslint)) {
+    const result = await select<any, number>({
+      message: '🚥 ' + messages.ci,
+      options: config.eslint.map((preset, index) => ({ label: preset.name, value: index })),
+    });
+
+    if (isCancel(result)) {
+      cancel('👋 ' + messages.cancel);
+      process.exit(0);
+    }
+
+    eslintPreset = result;
   }
 
   const ci = await select({

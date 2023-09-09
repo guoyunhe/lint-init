@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import { cancel, intro, isCancel, multiselect, outro, select } from '@clack/prompts';
+import { cancel, intro, isCancel, multiselect, outro, select, spinner } from '@clack/prompts';
 import chalk from 'chalk';
+import { runCommand } from '..';
 import enMessages from '../i18n/en.json';
 import zhMessages from '../i18n/zh.json';
 
@@ -50,7 +51,7 @@ import zhMessages from '../i18n/zh.json';
     process.exit(0);
   }
 
-  const installCommand = await select({
+  const installCommand = await select<any, string>({
     message: '📦 ' + messages.install,
     options: [
       { value: 'npm update', label: 'npm update' },
@@ -63,6 +64,19 @@ import zhMessages from '../i18n/zh.json';
   if (isCancel(installCommand)) {
     cancel('👋 ' + messages.cancel);
     process.exit(0);
+  }
+
+  if (installCommand) {
+    const s = spinner();
+    s.start('📦 ' + messages.installing);
+    const code = await runCommand(installCommand);
+    if (code === null) {
+      s.stop('👋 ' + messages.cancel);
+    } else if (code === 0) {
+      s.stop('📦 ' + messages.installed);
+    } else {
+      s.stop('📦 ' + code + messages.installed);
+    }
   }
 
   outro(

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { intro, multiselect, outro, select } from '@clack/prompts';
+import { cancel, intro, isCancel, multiselect, outro, select } from '@clack/prompts';
 import chalk from 'chalk';
 import enMessages from '../i18n/en.json';
 import zhMessages from '../i18n/zh.json';
@@ -19,7 +19,7 @@ import zhMessages from '../i18n/zh.json';
   );
 
   const linters = await multiselect({
-    message: messages.linters,
+    message: '🧰 ' + messages.linters,
     options: [
       { value: 'eslint', label: 'ESLint', hint: 'JS, TS, React, Vue' },
       { value: 'stylelint', label: 'Stylelint', hint: 'CSS, SCSS, LESS' },
@@ -32,13 +32,38 @@ import zhMessages from '../i18n/zh.json';
     required: true,
   });
 
+  if (isCancel(linters)) {
+    cancel('👋 ' + messages.cancel);
+    process.exit(0);
+  }
+
   const ci = await select({
-    message: messages.ci,
+    message: '🚥 ' + messages.ci,
     options: [
       { value: 'github-action', label: 'GitHub Action' },
       { value: 'gitlab-ci', label: 'GitLab CI' },
     ],
   });
+
+  if (isCancel(ci)) {
+    cancel('👋 ' + messages.cancel);
+    process.exit(0);
+  }
+
+  const installCommand = await select({
+    message: '📦 ' + messages.install,
+    options: [
+      { value: 'npm update', label: 'npm update' },
+      { value: 'pnpm update', label: 'pnpm update' },
+      { value: 'yarn update', label: 'yarn update' },
+      { value: null, label: messages.skip },
+    ],
+  });
+
+  if (isCancel(installCommand)) {
+    cancel('👋 ' + messages.cancel);
+    process.exit(0);
+  }
 
   outro(
     '🎉 ' + messages.thank + '\n      ' + chalk.underline('https://github.com/guoyunhe/lint-init')

@@ -5,10 +5,18 @@ import chalk from 'chalk';
 import enMessages from '../i18n/en.json';
 import zhMessages from '../i18n/zh.json';
 
-console.log('\n🪄 ', chalk.bold(chalk.cyan(PACKAGE_NAME)), chalk.dim('v' + PACKAGE_VERSION), '\n');
-
 const messages = process.env['LANG']?.startsWith('zh') ? zhMessages : enMessages;
 
-intro('🚀 ' + messages.intro);
+console.log('');
 
-outro('🎉 ' + messages.outro);
+intro(
+  '🚀 ' +
+    chalk.bold(chalk.cyan(PACKAGE_NAME)) +
+    ' ' +
+    chalk.dim('v' + PACKAGE_VERSION) +
+    ' by guoyunhe'
+);
+
+outro(
+  '🎉 ' + messages.thank + '\n      ' + chalk.underline('https://github.com/guoyunhe/lint-init')
+);

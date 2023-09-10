@@ -89,7 +89,7 @@ export interface StylelintInitPreset {
    *
    * @default 'package.json'
    */
-  configFile: string | string[];
+  configFile?: string | string[];
   /**
    * Content of `.stylelintignore` file.
    *

@@ -71,6 +71,10 @@ export interface ESLintInitPreset {
    */
   name: string;
   /**
+   * Identifier of the preset, used for command line option, e.g. --eslint react-typescript
+   */
+  id: string;
+  /**
    * devDependencies
    */
   deps?: Record<string, string>;
@@ -89,6 +93,10 @@ interface StylelintInitPreset {
    * Display name of the preset, e.g. Stylelint + CSS, Stylelint + LESS
    */
   name: string;
+  /**
+   * Identifier of the preset, used for command line option, e.g. --stylelint scss
+   */
+  id: string;
   /**
    * devDependencies
    */

@@ -90,6 +90,33 @@ export async function initProject(projectPath: string, options: InitProjectOptio
     delete packageJson.stylelint;
   }
 
+  if (options.markdownlint) {
+    packageJson.devDependencies = {
+      ...packageJson.devDependencies,
+      ['markdownlint-cli']: '0.x',
+      ...options.markdownlint.deps,
+    };
+
+    if (options.markdownlint.config) {
+      await writeFile(
+        join(projectPath, '.markdownlint.json'),
+        JSON.stringify(options.markdownlint.config, null, 2),
+        'utf8',
+      );
+    }
+
+    if (options.markdownlint.ignore) {
+      await writeFile(
+        join(projectPath, '.markdownlintignore'),
+        options.markdownlint.ignore,
+        'utf8',
+      );
+    }
+  } else {
+    await Promise.all(await glob(['.markdownlint.*', '.markdownlintignore'], { cwd: projectPath }));
+    delete packageJson.prettier;
+  }
+
   if (options.prettier) {
     packageJson.devDependencies = {
       ...packageJson.devDependencies,

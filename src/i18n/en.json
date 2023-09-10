@@ -15,5 +15,10 @@
   "skip": "Skip",
   "thank": "Completed! If you like this tool, give it a star ⭐ on GitHub",
   "cmd_eslint": "Enable ESLint support",
-  "cmd_eslint_presets": "Enable ESLint support and choose a preset. Avaiable presets: {presets}"
+  "cmd_eslint_presets": "Enable ESLint support and choose a preset. Avaiable presets: {presets}",
+  "cmd_stylelint": "Enable Stylelint support",
+  "cmd_stylelint_presets": "Enable Stylelint support and choose a preset. Avaiable presets: {presets}",
+  "cmd_markdownlint": "Enable Markdownlint support",
+  "cmd_prettier": "Enable Prettier support",
+  "cmd_no_install": "Skip dependencies re-installation"
 }

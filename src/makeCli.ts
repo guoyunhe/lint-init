@@ -24,8 +24,34 @@ export async function makeCli(config: LintInitConfig) {
             config.eslint.map((item) => item.id).join(', '),
           ),
         );
+      } else {
+        command.option('--eslint', messages.cmd_eslint);
       }
     }
+
+    if (config.stylelint) {
+      if (Array.isArray(config.stylelint)) {
+        command.option(
+          '--stylelint <preset>',
+          messages.cmd_stylelint_presets.replace(
+            '{presets}',
+            config.stylelint.map((item) => item.id).join(', '),
+          ),
+        );
+      } else {
+        command.option('--stylelint', messages.cmd_stylelint);
+      }
+    }
+
+    if (config.markdownlint) {
+      command.option('--markdownlint', messages.cmd_markdownlint);
+    }
+
+    if (config.prettier) {
+      command.option('--prettier', messages.cmd_prettier);
+    }
+
+    command.option('--no-install', messages.cmd_no_install);
   } else {
     // Interactive prompts
     console.log('');

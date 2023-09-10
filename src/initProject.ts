@@ -32,15 +32,28 @@ export async function initProject(projectPath: string, options: InitProjectOptio
   }
 
   if (options.eslint) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...options.eslint.deps };
+    packageJson.devDependencies = {
+      ...packageJson.devDependencies,
+      eslint: '^8.0.0',
+      ...options.eslint.deps,
+    };
 
-    if (options.eslint.config) {
-      await writeFile(
-        join(projectPath, '.eslintrc.json'),
-        JSON.stringify(options.eslint.config, null, 2),
-        'utf8',
-      );
+    const config = options.eslint.config || {};
+
+    if (options.prettier) {
+      packageJson.devDependencies['eslint-config-prettier'] = '^9.0.0';
+      packageJson.devDependencies['eslint-plugin-prettier'] = '^5.0.0';
+      if (!config.extends) {
+        config.extends = [];
+      }
+      config.extends.push('plugin:prettier/recommended');
     }
+
+    await writeFile(
+      join(projectPath, '.eslintrc.json'),
+      JSON.stringify(options.eslint.config, null, 2),
+      'utf8',
+    );
 
     if (options.eslint.ignore) {
       await writeFile(join(projectPath, '.eslintignore'), options.eslint.ignore, 'utf8');
@@ -53,7 +66,11 @@ export async function initProject(projectPath: string, options: InitProjectOptio
   }
 
   if (options.stylelint) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...options.stylelint.deps };
+    packageJson.devDependencies = {
+      ...packageJson.devDependencies,
+      stylelint: '^15.0.0',
+      ...options.stylelint.deps,
+    };
 
     if (options.stylelint.config) {
       await writeFile(
@@ -74,7 +91,11 @@ export async function initProject(projectPath: string, options: InitProjectOptio
   }
 
   if (options.prettier) {
-    packageJson.devDependencies = { ...packageJson.devDependencies, ...options.prettier.deps };
+    packageJson.devDependencies = {
+      ...packageJson.devDependencies,
+      prettier: '^3.0.0',
+      ...options.prettier.deps,
+    };
 
     if (options.prettier.config) {
       await writeFile(

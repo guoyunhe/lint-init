@@ -1,6 +1,7 @@
 import glob from 'fast-glob';
-import { readFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
+import sortPackageJson from 'sort-package-json';
 import {
   ESLintInitPreset,
   MarkdownlintInitPreset,
@@ -9,11 +10,11 @@ import {
 } from './LintInitConfig';
 
 export interface InitProjectOptions {
-  eslint?: ESLintInitPreset | null;
-  stylelint?: StylelintInitPreset | null;
-  markdownlint?: MarkdownlintInitPreset | null;
-  prettier?: PrettierInitPreset | null;
-  editorconfig?: string;
+  eslint?: ESLintInitPreset | null | undefined;
+  stylelint?: StylelintInitPreset | null | undefined;
+  markdownlint?: MarkdownlintInitPreset | null | undefined;
+  prettier?: PrettierInitPreset | null | undefined;
+  editorconfig?: string | null | undefined;
 }
 
 export async function initProject(projectPath: string, options: InitProjectOptions) {
@@ -39,4 +40,8 @@ export async function initProject(projectPath: string, options: InitProjectOptio
     );
     delete packageJson.eslintConfig;
   }
+
+  packageJson = sortPackageJson(packageJson);
+
+  await writeFile(join(projectPath, 'package.json'), JSON.stringify(packageJson, null, 2), 'utf8');
 }

@@ -1,9 +1,10 @@
-import { cancel, intro, isCancel, multiselect, outro, select, spinner } from '@clack/prompts';
+import { cancel, intro, isCancel, multiselect, outro, select, spinner, text } from '@clack/prompts';
 import chalk from 'chalk';
 import { Command } from 'commander';
-import { LintInitConfig } from './LintInitConfig';
+import { ESLintInitPreset, LintInitConfig, StylelintInitPreset } from './LintInitConfig';
 import enMessages from './i18n/en.json';
 import zhMessages from './i18n/zh.json';
+import { initProject } from './initProject';
 import { runCommand } from './runCommand';
 
 export async function makeCli(config: LintInitConfig) {
@@ -33,6 +34,16 @@ export async function makeCli(config: LintInitConfig) {
       '🚀 ' + chalk.bold(chalk.cyan(config.packageName)) + ' ' + chalk.dim('v' + config.version),
     );
 
+    const projectPath = await text({
+      message: '📁 ' + messages.project_path,
+      initialValue: process.cwd(),
+    });
+
+    if (isCancel(projectPath)) {
+      cancel('👋 ' + messages.cancel);
+      process.exit(0);
+    }
+
     const linterOptions: { label: string; value: string; hint?: string }[] = [];
 
     if (config.eslint) {
@@ -59,7 +70,7 @@ export async function makeCli(config: LintInitConfig) {
       process.exit(0);
     }
 
-    let eslintPreset: string | null = null;
+    let eslintPreset: ESLintInitPreset | undefined;
 
     if (linters.includes('eslint') && Array.isArray(config.eslint)) {
       const result = await select<any, string>({
@@ -72,10 +83,10 @@ export async function makeCli(config: LintInitConfig) {
         process.exit(0);
       }
 
-      eslintPreset = result;
+      eslintPreset = config.eslint.find((item) => item.id === result);
     }
 
-    let stylelintPreset: string | null = null;
+    let stylelintPreset: StylelintInitPreset | undefined;
 
     if (linters.includes('stylelint') && Array.isArray(config.stylelint)) {
       const result = await select<any, string>({
@@ -88,7 +99,7 @@ export async function makeCli(config: LintInitConfig) {
         process.exit(0);
       }
 
-      stylelintPreset = result;
+      stylelintPreset = config.stylelint.find((item) => item.id === result);
     }
 
     const ci = await select({
@@ -102,6 +113,21 @@ export async function makeCli(config: LintInitConfig) {
     if (isCancel(ci)) {
       cancel('👋 ' + messages.cancel);
       process.exit(0);
+    }
+
+    const s = spinner();
+    s.start('🚧 ' + messages.initializing);
+    try {
+      await initProject(projectPath, {
+        eslint: eslintPreset,
+        stylelint: stylelintPreset,
+        prettier: linters.includes('prettier') ? config.prettier : null,
+        markdownlint: linters.includes('markdownlint') ? config.markdownlint : null,
+        editorconfig: config.editorconfig,
+      });
+      s.stop('🚧 ' + messages.initialized);
+    } catch (e) {
+      s.stop('🚧 ' + messages.initialize_failed);
     }
 
     const installCommand = await select<any, string>({
@@ -120,15 +146,15 @@ export async function makeCli(config: LintInitConfig) {
     }
 
     if (installCommand) {
-      const s = spinner();
-      s.start('📦 ' + messages.installing);
+      const s2 = spinner();
+      s2.start('📦 ' + messages.installing);
       const code = await runCommand(installCommand);
       if (code === null) {
-        s.stop('👋 ' + messages.cancel);
+        s2.stop('👋 ' + messages.cancel);
       } else if (code === 0) {
-        s.stop('📦 ' + messages.installed);
+        s2.stop('📦 ' + messages.installed);
       } else {
-        s.stop('📦 ' + code + messages.installed);
+        s2.stop('📦 ' + code + messages.installed);
       }
     }
 

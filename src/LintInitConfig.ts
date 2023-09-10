@@ -86,8 +86,6 @@ export interface StylelintInitPreset {
   /**
    * Stylelint configuration file name. If array is given, users can choose one from the list and the
    * first will be the default.
-   *
-   * @default 'package.json'
    */
   configFile?: string | string[];
   /**

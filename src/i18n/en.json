@@ -1,9 +1,13 @@
 {
+  "project_path": "Path to your project:",
   "linters": "Linters you want to use:",
   "eslint_presets": "ESLint preset you want to use:",
   "stylelint_presets": "Stylelint preset you want to use:",
   "ci": "CI/CD system you want to use:",
   "cancel": "Cancelled",
+  "initializing": "Initializing the project",
+  "initialized": "Project initialized successfully!",
+  "initialize_failed": "Failed to initialize project",
   "install": "Whether to re-install dependencies:",
   "installing": "Installing",
   "installed": "Installed",

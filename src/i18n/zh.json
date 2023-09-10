@@ -1,9 +1,13 @@
 {
+  "project_path": "您的项目路径：",
   "linters": "您想要使用的规约工具：",
   "eslint_presets": "您想要使用的 ESLint 预设：",
   "stylelint_presets": "您想要使用的 Stylelint 预设：",
   "ci": "您想要使用的 CI/CD 系统：",
   "cancel": "已取消",
+  "initializing": "正在初始化项目",
+  "initialized": "项目初始化成功！",
+  "initialize_failed": "项目初始化失败",
   "install": "是否要重新安装依赖：",
   "installing": "正在安装",
   "installed": "安装完成",

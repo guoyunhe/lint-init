@@ -128,6 +128,8 @@ export async function makeCli(config: LintInitConfig) {
       s.stop('🚧 ' + messages.initialized);
     } catch (e) {
       s.stop('🚧 ' + messages.initialize_failed);
+      console.error(e);
+      process.exit(1);
     }
 
     const installCommand = await select<any, string>({

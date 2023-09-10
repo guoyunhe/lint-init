@@ -1,5 +1,3 @@
-import { Config } from 'prettier';
-
 export interface LintInitConfig {
   /**
    * Package name of the lint-init tool, e.g. @org-name/lint-init, awesome-lint-init
@@ -24,41 +22,11 @@ export interface LintInitConfig {
   /**
    * Enable Markdownlint support
    */
-  markdownlint?: {
-    /**
-     * devDependencies of the preset
-     */
-    deps?: Record<string, string>;
-    /**
-     * Prettier configuration object or package name of shareable configuration. If not specified,
-     * Prettier will read `.editorconfig` settings or use built-in defaults.
-     * @see https://prettier.io/docs/en/options
-     */
-    config?: string | Config;
-    /**
-     * .prettierignore
-     */
-    ignore?: string;
-  };
+  markdownlint?: MarkdownlintInitPreset;
   /**
    * Enable Prettier support
    */
-  prettier?: {
-    /**
-     * devDependencies of the preset
-     */
-    deps?: Record<string, string>;
-    /**
-     * Prettier configuration object or package name of shareable configuration. If not specified,
-     * Prettier will read `.editorconfig` settings or use built-in defaults.
-     * @see https://prettier.io/docs/en/options
-     */
-    config?: string | Config;
-    /**
-     * .prettierignore
-     */
-    ignore?: string;
-  };
+  prettier?: PrettierInitPreset;
   /**
    * EditorConfig settings
    */
@@ -83,12 +51,22 @@ export interface ESLintInitPreset {
    */
   config: any;
   /**
-   * .eslintignore
+   * ESLint configuration file name. If array is given, users can choose one from the list and the
+   * first will be the default.
+   *
+   * @default 'package.json'
+   */
+  configFile?: string | string[];
+  /**
+   * Content of `.eslintignore` file.
+   *
+   * If you don't want to create another file, use `ignorePatterns` in config files instead.
+   * @see https://eslint.org/docs/latest/use/configure/ignore#ignorepatterns-in-config-files
    */
   ignore?: string;
 }
 
-interface StylelintInitPreset {
+export interface StylelintInitPreset {
   /**
    * Display name of the preset, e.g. Stylelint + CSS, Stylelint + LESS
    */
@@ -106,7 +84,65 @@ interface StylelintInitPreset {
    */
   config: any;
   /**
-   * .stylelintignore
+   * Stylelint configuration file name. If array is given, users can choose one from the list and the
+   * first will be the default.
+   *
+   * @default 'package.json'
+   */
+  configFile: string | string[];
+  /**
+   * Content of `.stylelintignore` file.
+   *
+   * If you don't want to create another file, use `ignoreFiles` in config files instead.
+   * @see https://stylelint.io/user-guide/configure#ignorefiles
+   */
+  ignore?: string;
+}
+
+export interface PrettierInitPreset {
+  /**
+   * devDependencies of the preset
+   */
+  deps?: Record<string, string>;
+  /**
+   * Prettier configuration object or package name of shareable configuration. If not specified,
+   * Prettier will read `.editorconfig` settings or use built-in defaults.
+   * @see https://prettier.io/docs/en/options
+   */
+  config?: any;
+  /**
+   * Prettier configuration file name. If array is given, users can choose one from the list and the
+   * first will be the default.
+   *
+   * @default 'package.json'
+   */
+  configFile?: string | string[];
+  /**
+   * .prettierignore
+   */
+  ignore?: string;
+}
+
+export interface MarkdownlintInitPreset {
+  /**
+   * devDependencies of the preset
+   */
+  deps?: Record<string, string>;
+  /**
+   * Markdownlint configuration
+   * @see https://github.com/DavidAnson/markdownlint
+   * @see https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+   */
+  config?: any;
+  /**
+   * Markdownlint configuration file name. If array is given, users can choose one from the list and the
+   * first will be the default.
+   *
+   * @default '.markdownlint.json'
+   */
+  configFile?: string | string[];
+  /**
+   * .markdownlintignore
    */
   ignore?: string;
 }

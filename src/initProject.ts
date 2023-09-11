@@ -145,4 +145,8 @@ export async function initProject(projectPath: string, options: InitProjectOptio
   packageJson = sortPackageJson(packageJson);
 
   await writeFile(join(projectPath, 'package.json'), JSON.stringify(packageJson, null, 2), 'utf8');
+
+  if (options.editorconfig) {
+    await writeFile(join(projectPath, '.editorconfig'), options.editorconfig, 'utf8');
+  }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
+import { makeCli } from 'lint-init-framework';
 import { config } from '../config';
-import { makeCli } from '../makeCli';
 
 makeCli(config);

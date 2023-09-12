@@ -1,6 +1,6 @@
 {
   "name": "lint-init",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Initialize ESLint, Stylelint, Prettier, EditorConfig for your projects",
   "keywords": [
     "eslint",

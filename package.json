@@ -52,7 +52,7 @@
     "preset": "@guoyunhe/node-scripts"
   },
   "dependencies": {
-    "lint-init-framework": "^1.0.1"
+    "lint-init-framework": "^1.2.0"
   },
   "devDependencies": {
     "@guoyunhe/node-scripts": "^2.2.0",
